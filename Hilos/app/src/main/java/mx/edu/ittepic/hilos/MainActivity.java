@@ -33,7 +33,6 @@ public class MainActivity extends AppCompatActivity {
             public void onClick(View view) {
                 if(!editNum.getText().toString().isEmpty()){
                     numero=Integer.parseInt(editNum.getText().toString());
-                    pb.setProgress(0);
                     new AsyncTarea().execute();
                 }
             }
@@ -56,6 +55,8 @@ public class MainActivity extends AppCompatActivity {
         protected void onPreExecute() {
             super.onPreExecute();
             pb.setMax(numero);
+            pb.setProgress(0);
+            num.setText("0");
         }
 
         @Override
