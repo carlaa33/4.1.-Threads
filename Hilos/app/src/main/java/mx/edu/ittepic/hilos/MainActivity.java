@@ -11,11 +11,11 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 public class MainActivity extends AppCompatActivity {
-    Button inicio;
-    EditText editNum;
-    TextView num;
-    ProgressBar pb;
-    int numero;
+    Button inicio,inicio2;
+    EditText editNum,editNum2;
+    TextView num,num2;
+    ProgressBar pb,pb2;
+    int numero,numero2,tipo;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -25,14 +25,32 @@ public class MainActivity extends AppCompatActivity {
         inicio=findViewById(R.id.btnIniciar);
         editNum=findViewById(R.id.editNum);
         num=findViewById(R.id.num);
-        pb=findViewById(R.id.progressBar3);
+        pb=findViewById(R.id.PB1);
         numero=0;
+        inicio2=findViewById(R.id.btnIniciar2);
+        editNum2=findViewById(R.id.editNum2);
+        num2=findViewById(R.id.num2);
+        pb2=findViewById(R.id.PB2);
+        numero2=0;
+        tipo=0;
 
         inicio.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 if(!editNum.getText().toString().isEmpty()){
+                    tipo=1;
                     numero=Integer.parseInt(editNum.getText().toString());
+                    new AsyncTarea().execute();
+                }
+            }
+        });
+
+        inicio2.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if(!editNum.getText().toString().isEmpty()){
+                    tipo=2;
+                    numero2=Integer.parseInt(editNum2.getText().toString());
                     new AsyncTarea().execute();
                 }
             }
@@ -54,21 +72,46 @@ public class MainActivity extends AppCompatActivity {
         @Override
         protected void onPreExecute() {
             super.onPreExecute();
-            pb.setMax(numero);
-            pb.setProgress(0);
-            num.setText("0");
+            switch (tipo){
+                case 1:
+                    pb.setMax(numero);
+                    pb.setProgress(0);
+                    num.setText("0");
+                    break;
+                case 2:
+                    pb2.setMax(numero2);
+                    pb2.setProgress(0);
+                    num2.setText("0");
+                    break;
+            }
         }
 
         @Override
         protected Boolean doInBackground(Void... params) {
-
-            for (int i=1; i<=numero; i++){
-                espera();
-                publishProgress(i);
-                if (isCancelled()){
+            switch (tipo){
+                case 1:
+                    for (int i=1; i<=numero; i++){
+                        espera();
+                        publishProgress(i);
+                        if (isCancelled()){
+                            break;
+                        }
+                    }
                     break;
-                }
+                case 2:
+                    for (int i=1; i<=numero2; i++){
+                        espera();
+                        publishProgress(i);
+                        if (isCancelled()){
+                            break;
+                        }
+                    }
+                    break;
+
+
             }
+
+
             return true;
         }
 
@@ -78,8 +121,17 @@ public class MainActivity extends AppCompatActivity {
             super.onProgressUpdate(values);
 
             //Actualizar la barra de progreso
-            num.setText(values[0]+"");
-            pb.setProgress(values[0].intValue());
+            switch (tipo){
+                case 1:
+                    num.setText(values[0]+"");
+                    pb.setProgress(values[0].intValue());
+                    break;
+                case 2:
+                    num2.setText(values[0]+"");
+                    pb2.setProgress(values[0].intValue());
+                    break;
+            }
+
         }
 
         @Override
@@ -94,9 +146,7 @@ public class MainActivity extends AppCompatActivity {
         @Override
         protected void onCancelled() {
             super.onCancelled();
-
             Toast.makeText(getApplicationContext(),"Tarea NO finaliza AsyncTask",Toast.LENGTH_SHORT).show();
-
         }
 
 

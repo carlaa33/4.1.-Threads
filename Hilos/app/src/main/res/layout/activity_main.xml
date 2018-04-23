@@ -7,53 +7,101 @@
     tools:context="mx.edu.ittepic.hilos.MainActivity"
     tools:layout_editor_absoluteY="81dp">
 
+    <ProgressBar
+        android:id="@+id/PB1"
+        style="?android:attr/progressBarStyleHorizontal"
+        android:layout_width="0dp"
+        android:layout_height="38dp"
+        android:layout_marginEnd="16dp"
+        android:layout_marginTop="34dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/num2"
+        app:layout_constraintTop_toBottomOf="@+id/btnIniciar2" />
+
+    <TextView
+        android:id="@+id/num2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="198dp"
+        android:layout_marginEnd="42dp"
+        android:layout_marginStart="16dp"
+        android:text="0"
+        android:textSize="24sp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toStartOf="@+id/PB1"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/editNum2" />
+
+    <Button
+        android:id="@+id/btnIniciar2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="17dp"
+        android:text="iniciar"
+        app:layout_constraintBaseline_toBaselineOf="@+id/editNum2"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/editNum2" />
+
     <Button
         android:id="@+id/btnIniciar"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="50dp"
+        android:layout_marginEnd="12dp"
+        android:layout_marginTop="16dp"
         android:text="iniciar"
-        app:layout_constraintBottom_toTopOf="@+id/num"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/editNum" />
+        app:layout_constraintStart_toEndOf="@+id/editNum"
+        app:layout_constraintTop_toTopOf="parent" />
 
     <EditText
         android:id="@+id/editNum"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="42dp"
-        android:layout_marginTop="29dp"
+        android:layout_marginBottom="36dp"
+        android:layout_marginEnd="6dp"
+        android:layout_marginTop="16dp"
         android:ems="10"
         android:inputType="number"
-        app:layout_constraintBottom_toTopOf="@+id/btnIniciar"
-        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintBottom_toTopOf="@+id/PB2"
+        app:layout_constraintEnd_toStartOf="@+id/btnIniciar"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
+
+    <ProgressBar
+        android:id="@+id/PB2"
+        style="?android:attr/progressBarStyleHorizontal"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:layout_marginBottom="63dp"
+        android:layout_marginEnd="17dp"
+        app:layout_constraintBottom_toTopOf="@+id/editNum2"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/num"
+        app:layout_constraintTop_toBottomOf="@+id/editNum" />
 
     <TextView
         android:id="@+id/num"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="13dp"
-        android:layout_marginEnd="34dp"
+        android:layout_marginEnd="33dp"
+        android:layout_marginStart="24dp"
         android:text="0"
         android:textSize="24sp"
-        app:layout_constraintBottom_toTopOf="@+id/progressBar3"
-        app:layout_constraintEnd_toEndOf="@+id/btnIniciar"
-        app:layout_constraintTop_toBottomOf="@+id/btnIniciar" />
-
-    <ProgressBar
-        android:id="@+id/progressBar3"
-        style="?android:attr/progressBarStyleHorizontal"
-        android:layout_width="0dp"
-        android:layout_height="0dp"
-        android:layout_marginBottom="181dp"
-        android:layout_marginEnd="24dp"
-        android:layout_marginStart="24dp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintEnd_toStartOf="@+id/PB2"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/num" />
+        app:layout_constraintTop_toTopOf="@+id/PB2" />
+
+    <EditText
+        android:id="@+id/editNum2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="36dp"
+        android:layout_marginEnd="16dp"
+        android:ems="10"
+        android:inputType="number"
+        app:layout_constraintBottom_toTopOf="@+id/num2"
+        app:layout_constraintEnd_toStartOf="@+id/btnIniciar2"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/PB2" />
 
 </android.support.constraint.ConstraintLayout>
