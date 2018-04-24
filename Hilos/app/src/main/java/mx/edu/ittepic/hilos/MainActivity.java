@@ -3,6 +3,7 @@ package mx.edu.ittepic.hilos;
 import android.os.AsyncTask;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -15,7 +16,8 @@ public class MainActivity extends AppCompatActivity {
     EditText editNum,editNum2;
     TextView num,num2;
     ProgressBar pb,pb2;
-    int numero,numero2,tipo;
+    int numero,numero2;
+    Boolean ej1,ej2;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -25,22 +27,26 @@ public class MainActivity extends AppCompatActivity {
         inicio=findViewById(R.id.btnIniciar);
         editNum=findViewById(R.id.editNum);
         num=findViewById(R.id.num);
-        pb=findViewById(R.id.PB1);
+        pb=findViewById(R.id.PB);
         numero=0;
+
         inicio2=findViewById(R.id.btnIniciar2);
         editNum2=findViewById(R.id.editNum2);
         num2=findViewById(R.id.num2);
         pb2=findViewById(R.id.PB2);
         numero2=0;
-        tipo=0;
+
 
         inicio.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 if(!editNum.getText().toString().isEmpty()){
-                    tipo=1;
+                    ej1=true;
                     numero=Integer.parseInt(editNum.getText().toString());
-                    new AsyncTarea().execute();
+                    pb.setMax(numero);
+                    pb.setProgress(0);
+                    num.setText("0");
+                    new AsyncTarea().executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR,1,numero);
                 }
             }
         });
@@ -49,9 +55,12 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 if(!editNum.getText().toString().isEmpty()){
-                    tipo=2;
+                    ej2=true;
                     numero2=Integer.parseInt(editNum2.getText().toString());
-                    new AsyncTarea().execute();
+                    pb2.setMax(numero2);
+                    pb2.setProgress(0);
+                    num2.setText("0");
+                    new AsyncTarea().executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR,2,numero2);
                 }
             }
         });
@@ -59,6 +68,7 @@ public class MainActivity extends AppCompatActivity {
 
 
     }
+
 
     public void espera(){
         try {
@@ -68,50 +78,23 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
-    private class  AsyncTarea extends AsyncTask<Void, Integer,Boolean> {
+    private class  AsyncTarea extends AsyncTask<Integer, Integer,Boolean> {
+        int tipo;
         @Override
         protected void onPreExecute() {
             super.onPreExecute();
-            switch (tipo){
-                case 1:
-                    pb.setMax(numero);
-                    pb.setProgress(0);
-                    num.setText("0");
-                    break;
-                case 2:
-                    pb2.setMax(numero2);
-                    pb2.setProgress(0);
-                    num2.setText("0");
-                    break;
-            }
         }
 
         @Override
-        protected Boolean doInBackground(Void... params) {
-            switch (tipo){
-                case 1:
-                    for (int i=1; i<=numero; i++){
-                        espera();
-                        publishProgress(i);
-                        if (isCancelled()){
-                            break;
-                        }
-                    }
+        protected Boolean doInBackground(Integer... params) {
+            tipo=params[0];
+            for (int i=1; i<=params[1]; i++){
+                espera();
+                publishProgress(i);
+                if (isCancelled()){
                     break;
-                case 2:
-                    for (int i=1; i<=numero2; i++){
-                        espera();
-                        publishProgress(i);
-                        if (isCancelled()){
-                            break;
-                        }
-                    }
-                    break;
-
-
+                }
             }
-
-
             return true;
         }
 
@@ -119,7 +102,6 @@ public class MainActivity extends AppCompatActivity {
         @Override
         protected void onProgressUpdate(Integer... values) {
             super.onProgressUpdate(values);
-
             //Actualizar la barra de progreso
             switch (tipo){
                 case 1:
@@ -131,14 +113,13 @@ public class MainActivity extends AppCompatActivity {
                     pb2.setProgress(values[0].intValue());
                     break;
             }
-
         }
 
         @Override
         protected void onPostExecute(Boolean aVoid) {
             //super.onPostExecute(aVoid);
             if (aVoid){
-                Toast.makeText(getApplicationContext(),"Tarea finaliza AsyncTask",Toast.LENGTH_SHORT).show();
+                Toast.makeText(getApplicationContext(),"Tarea"+tipo+" finaliza AsyncTask",Toast.LENGTH_SHORT).show();
             }
         }
 
@@ -148,7 +129,5 @@ public class MainActivity extends AppCompatActivity {
             super.onCancelled();
             Toast.makeText(getApplicationContext(),"Tarea NO finaliza AsyncTask",Toast.LENGTH_SHORT).show();
         }
-
-
     }
 }
